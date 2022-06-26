@@ -1,0 +1,20 @@
+.default{
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: auto;
+    height: auto;
+    margin: 15px;
+    padding: 10px;
+    background-color: #6288e7;
+    border: none;
+}
+
+.default:hover{
+    background-color: #3b6cda;
+}
+
+.default:disabled{
+    background-color: lightgrey;
+}

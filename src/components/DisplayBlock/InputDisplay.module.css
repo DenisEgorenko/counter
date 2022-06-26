@@ -1,0 +1,49 @@
+.display{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid #6288e7;
+    border-radius: 7px;
+    width: 90%;
+    height: 100%;
+    margin: 20px;
+}
+
+
+.inputWrapper{
+    align-items: center;
+    margin: 0 20px 0 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputBlock{
+    display: flex;
+    align-items: center;
+}
+
+.button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.input{
+    text-align: center;
+    border: 1px solid white;
+    display: block;
+    width: 30px;
+    height: 34px;
+    border-radius: 5px;
+}
+
+
+.error{
+    color: white;
+    box-shadow: 0px 0px 2px 2px rgba(255, 0, 0, 0.8);
+    border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.45);
+}

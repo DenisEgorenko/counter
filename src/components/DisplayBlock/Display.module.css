@@ -1,0 +1,21 @@
+.display{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 90px;
+    border: 2px solid #6288e7;
+    border-radius: 7px;
+    width: 90%;
+    height: 100%;
+    margin: 20px;
+}
+
+.maxnumber{
+    font-weight: 700;
+    color: red;
+}
+.message{
+    font-size: 19px;
+}
