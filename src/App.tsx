@@ -41,12 +41,12 @@ export type buttonPropsType = {
 
 function App() {
 
-    useEffect(()=>{
-        dispatch(setValue(Number(localStorage.getItem('start value'))))
-        dispatch(setStart(Number(localStorage.getItem('start value'))))
-        dispatch(setNewStartValue(Number(localStorage.getItem('start value'))))
-        dispatch(setMax(Number(localStorage.getItem('max value'))))
-        dispatch(setNewMaxValue(Number(localStorage.getItem('max value'))))
+    useEffect(() => {
+        dispatch(setValue(Number(localStorage.getItem('start value')) ? Number(localStorage.getItem('start value')) : 0))
+        dispatch(setStart(Number(localStorage.getItem('start value')) ? Number(localStorage.getItem('start value')) : 0))
+        dispatch(setNewStartValue(Number(localStorage.getItem('start value')) ? Number(localStorage.getItem('start value')) : 0))
+        dispatch(setMax(Number(localStorage.getItem('max value')) ? Number(localStorage.getItem('max value')) : 5))
+        dispatch(setNewMaxValue(Number(localStorage.getItem('max value')) ? Number(localStorage.getItem('max value')) : 5))
     }, [])
 
     const state = useSelector<RootState, CounterState>(state => state.counter)
