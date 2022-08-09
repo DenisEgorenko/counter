@@ -6,13 +6,13 @@ import Display from '../DisplayBlock/Display';
 import InputDisplay from '../DisplayBlock/InputDisplay';
 
 
-
 export function OneDisplayMode(props: CounterPropsType) {
 
+
     const buttonArray: Array<buttonPropsType> = [
-        {title: "Inc", onClick: props.increaseHandler, disabled: props.value === props.max},
-        {title: "Reset", onClick: props.resetHandler, disabled: props.value === props.start},
-        {title: "Set", onClick: ()=>(props.setSetMode ? props.setSetMode(!props.setMode): '')}
+        {title: 'Inc', onClick: props.increaseHandler, disabled: props.value === props.max},
+        {title: 'Reset', onClick: props.resetHandler, disabled: props.value === props.start},
+        {title: 'Set', onClick: props.setSetMode ? props.setSetMode : ()=> {}}
     ]
 
     const buttonSetArray: Array<buttonPropsType> = [
@@ -30,7 +30,7 @@ export function OneDisplayMode(props: CounterPropsType) {
                     max={props.newMaxValue}
                     error={props.error}
                 />
-                :<Display
+                : <Display
                     max={props.max}
                     value={props.value}
                 />
@@ -39,10 +39,10 @@ export function OneDisplayMode(props: CounterPropsType) {
             {props.setMode
                 ? <ButtonBlock
                     buttonArray={buttonSetArray}
-                    />
+                />
                 : <ButtonBlock
                     buttonArray={buttonArray}
-                    />
+                />
             }
         </div>
     )

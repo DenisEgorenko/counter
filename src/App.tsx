@@ -1,8 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styles from './App.module.css';
 import {OneDisplayMode} from './components/Variants/OneDisplayMode';
 import Button from './components/Button/Button';
 import TwoDisplayMode from './components/Variants/TwoDisplayMode';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from './state/state';
+import {
+    CounterState,
+    setError,
+    setMax,
+    setNewMaxValue,
+    setNewStartValue,
+    setStart,
+    setValue,
+    toggleCounterMode,
+    toggleOneDisplayCounterSetMode
+} from './state/counterReducer';
 
 
 export type CounterPropsType = {
@@ -18,8 +31,7 @@ export type CounterPropsType = {
     resetHandler: () => void,
     error: string,
     setMode?: boolean,
-    setSetMode?: (value:boolean)=>void
-
+    setSetMode?: () => void
 }
 
 export type buttonPropsType = {
@@ -29,87 +41,100 @@ export type buttonPropsType = {
 
 function App() {
 
-    const [start, setStart] = useState(Number(localStorage.getItem('start value')))
-    const [max, setMax] = useState(Number(localStorage.getItem('max value')))
+    useEffect(()=>{
+        dispatch(setValue(Number(localStorage.getItem('start value'))))
+        dispatch(setStart(Number(localStorage.getItem('start value'))))
+        dispatch(setNewStartValue(Number(localStorage.getItem('start value'))))
+        dispatch(setMax(Number(localStorage.getItem('max value'))))
+        dispatch(setNewMaxValue(Number(localStorage.getItem('max value'))))
+    }, [])
 
-    const [newStartValue, setNewStartValue] = useState(start)
-    const [newMaxValue, setNewMaxValue] = useState(max)
+    const state = useSelector<RootState, CounterState>(state => state.counter)
+    const dispatch = useDispatch<AppDispatch>()
 
-    const [value, setValue] = useState<number>(start)
-    const [error, setError] = useState('')
-
-    const [twoDisplayMode, setTwoDisplayMode] = useState(false)
-    const[setMode, setSetMode] = useState<boolean>(false)
 
     useEffect(() => {
-        if (newStartValue >= newMaxValue) {
-            setError('Неправильное значения ввода')
-        } else if (newStartValue !== start || newMaxValue !== max) {
-            setError('Введите значение и нажмите "Set"')
+        if (state.newStartValue >= state.newMaxValue) {
+            dispatch(setError('Неправильное значения ввода'))
+        } else if (state.newStartValue !== state.start || state.newMaxValue !== state.max) {
+            dispatch(setError('Введите значение и нажмите "Set"'))
         } else {
-            setError('')
+            dispatch(setError(''))
         }
-    }, [newStartValue, newMaxValue])
+    }, [state.newStartValue, state.newMaxValue])
+
 
     const increaseHandler = () => {
-        if (value < max) {
-            setValue(value + 1)
+        if (state.value < state.max) {
+            dispatch(setValue(state.value + 1))
         }
     }
 
     const resetHandler = () => {
-        setValue(start)
+        dispatch(setValue(state.start))
     }
 
     const setStartMaxValue = () => {
-        setStart(newStartValue)
-        setMax(newMaxValue)
-        setError('')
-        setValue(newStartValue)
-        setSetMode(false)
-        localStorage.setItem("start value", JSON.stringify(newStartValue))
-        localStorage.setItem("max value", JSON.stringify(newMaxValue))
+        dispatch(setStart(state.newStartValue))
+        dispatch(setMax(state.newMaxValue))
+        dispatch(setValue(state.newStartValue))
+        dispatch(setError(''))
+        localStorage.setItem('start value', JSON.stringify(state.newStartValue))
+        localStorage.setItem('max value', JSON.stringify(state.newMaxValue))
+    }
+
+    const setStartMaxValueHandleForOneDisplayMode = () => {
+        setStartMaxValue()
+        dispatch(toggleOneDisplayCounterSetMode())
+    }
+
+    const setNewStartValueHandler = (value: number) => {
+        dispatch(setNewStartValue(value))
+    }
+
+    const setNewMaxValueHandler = (value: number) => {
+        dispatch(setNewMaxValue(value))
     }
 
 
     return (
         <div className={styles.App}>
 
-            <div className={styles.toggleButton}><Button title={'Toggle'} onClick={() => setTwoDisplayMode(!twoDisplayMode)}/>
+            <div className={styles.toggleButton}><Button title={'Toggle'}
+                                                         onClick={() => dispatch(toggleCounterMode())}/>
             </div>
 
-            {twoDisplayMode ?
-                <TwoDisplayMode start={start}
-                                max={max}
-                                newStartValue={newStartValue}
-                                newMaxValue={newMaxValue}
-                                setNewStartValue={setNewStartValue}
-                                setNewMaxValue={setNewMaxValue}
-                                value={value}
+            {state.counterMode ?
+                <TwoDisplayMode start={state.start}
+                                max={state.max}
+                                newStartValue={state.newStartValue}
+                                newMaxValue={state.newMaxValue}
+                                setNewStartValue={setNewStartValueHandler}
+                                setNewMaxValue={setNewMaxValueHandler}
+                                value={state.value}
                                 increaseHandler={increaseHandler}
                                 resetHandler={resetHandler}
                                 setStartMaxValue={setStartMaxValue}
-                                error={error}
+                                error={state.error}
                 />
-                : <OneDisplayMode start={start}
-                                  max={max}
-                                  newStartValue={newStartValue}
-                                  newMaxValue={newMaxValue}
-                                  setNewStartValue={setNewStartValue}
-                                  setNewMaxValue={setNewMaxValue}
-                                  value={value}
+                : <OneDisplayMode start={state.start}
+                                  max={state.max}
+                                  newStartValue={state.newStartValue}
+                                  newMaxValue={state.newMaxValue}
+                                  setNewStartValue={setNewStartValueHandler}
+                                  setNewMaxValue={setNewMaxValueHandler}
+                                  value={state.value}
                                   increaseHandler={increaseHandler}
                                   resetHandler={resetHandler}
-                                  setStartMaxValue={setStartMaxValue}
-                                  error={error}
-                                  setMode={setMode}
-                                  setSetMode={setSetMode}
+                                  setStartMaxValue={setStartMaxValueHandleForOneDisplayMode}
+                                  error={state.error}
+                                  setMode={state.twoDisplayCounterSetMode}
+                                  setSetMode={() => dispatch(toggleOneDisplayCounterSetMode())}
 
                 />
             }
         </div>
     );
 }
-
 
 export default App;
