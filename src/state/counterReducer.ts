@@ -34,35 +34,35 @@ const initialState = {
 
 export const counterReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(toggleCounterMode, (state, action)=>{
+        .addCase(toggleCounterMode, (state, action) => {
             state.counterMode = !state.counterMode
         })
 
-        .addCase(toggleOneDisplayCounterSetMode, (state, action)=>{
+        .addCase(toggleOneDisplayCounterSetMode, (state, action) => {
             state.twoDisplayCounterSetMode = !state.twoDisplayCounterSetMode
         })
 
-        .addCase(setError, (state, action)=>{
+        .addCase(setError, (state, action) => {
             state.error = action.payload
         })
 
-        .addCase(setStart, (state, action)=>{
+        .addCase(setStart, (state, action) => {
             state.start = action.payload
         })
 
-        .addCase(setMax, (state, action)=>{
+        .addCase(setMax, (state, action) => {
             state.max = action.payload
         })
 
-        .addCase(setValue, (state, action)=>{
+        .addCase(setValue, (state, action) => {
             state.value = action.payload
         })
 
-        .addCase(setNewStartValue, (state, action)=>{
+        .addCase(setNewStartValue, (state, action) => {
             state.newStartValue = action.payload
         })
 
-        .addCase(setNewMaxValue, (state, action)=>{
+        .addCase(setNewMaxValue, (state, action) => {
             state.newMaxValue = action.payload
         })
 })
