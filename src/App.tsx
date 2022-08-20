@@ -41,13 +41,6 @@ export type buttonPropsType = {
 
 function App() {
 
-    useEffect(() => {
-        dispatch(setValue(Number(localStorage.getItem('start value')) ? Number(localStorage.getItem('start value')) : 0))
-        dispatch(setStart(Number(localStorage.getItem('start value')) ? Number(localStorage.getItem('start value')) : 0))
-        dispatch(setNewStartValue(Number(localStorage.getItem('start value')) ? Number(localStorage.getItem('start value')) : 0))
-        dispatch(setMax(Number(localStorage.getItem('max value')) ? Number(localStorage.getItem('max value')) : 5))
-        dispatch(setNewMaxValue(Number(localStorage.getItem('max value')) ? Number(localStorage.getItem('max value')) : 5))
-    }, [])
 
     const state = useSelector<RootState, CounterState>(state => state.counter)
     const dispatch = useDispatch<AppDispatch>()
@@ -79,8 +72,6 @@ function App() {
         dispatch(setMax(state.newMaxValue))
         dispatch(setValue(state.newStartValue))
         dispatch(setError(''))
-        localStorage.setItem('start value', JSON.stringify(state.newStartValue))
-        localStorage.setItem('max value', JSON.stringify(state.newMaxValue))
     }
 
     const setStartMaxValueHandleForOneDisplayMode = () => {
